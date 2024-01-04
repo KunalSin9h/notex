@@ -1,0 +1,25 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Yet another note taking app (for speer.io assignment)",
+        "title": "Notex API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:7000",
+    "basePath": "/api",
+    "paths": {},
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "X-API-Key",
+            "in": "header"
+        },
+        "BasicAuth": {
+            "type": "basic"
+        }
+    }
+}

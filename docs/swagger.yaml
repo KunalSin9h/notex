@@ -1,0 +1,18 @@
+basePath: /api
+host: localhost:7000
+info:
+  contact: {}
+  description: Yet another note taking app (for speer.io assignment)
+  title: Notex API
+  version: "1.0"
+paths: {}
+schemes:
+- http
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: X-API-Key
+    type: apiKey
+  BasicAuth:
+    type: basic
+swagger: "2.0"
