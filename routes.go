@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -9,6 +10,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/swagger"
+	"github.com/kunalsin9h/notex/api/auth"
+	"github.com/kunalsin9h/notex/api/notes"
+	"github.com/kunalsin9h/notex/api/search"
 )
 
 // Running application
@@ -39,9 +43,11 @@ func (app *Config) routes() *fiber.App {
 	routes.Use(encryptcookie.New(encryptcookie.Config{
 		Key: encryptcookie.GenerateKey(),
 		// A new Key is generated every-time which will make current cookies invalid
-		// to prevent from this, use a persisted key (from env vars maybe)
+		// to have same key on every run, use a persisted key (from env vars maybe)
 	}))
 
+	// Check if application is up and running
+	// at GET /
 	routes.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(routes.Stack())
 	})
@@ -51,29 +57,32 @@ func (app *Config) routes() *fiber.App {
 	//-----------------
 	api := routes.Group("/api")
 
+	// GET /api
+	api.Get("/", func(c *fiber.Ctx) error { return c.Status(http.StatusOK).SendString("Notex is up and running\n") })
+
 	//------------------
 	// Auth APIs
 	//------------------
-	auth := api.Group("/auth")
-	auth.Post("/signup")
-	auth.Post("/login")
+	authAPI := api.Group("/auth")
+	authAPI.Post("/signup", auth.Login)
+	authAPI.Post("/login", auth.SignUp)
 
 	//------------------
 	// Notes APIs
 	//------------------
-	notes := api.Group("/notes")
-	notes.Get("/")
-	notes.Get("/:id")
-	notes.Post("/")
-	notes.Put("/:id")
-	notes.Delete("/:id")
-	notes.Post("/:id/share")
+	notesAPI := api.Group("/notes")
+	notesAPI.Get("/", notes.Get)
+	notesAPI.Get("/:id", notes.GetByID)
+	notesAPI.Post("/", notes.New)
+	notesAPI.Put("/:id", notes.Update)
+	notesAPI.Delete("/:id", notes.Delete)
+	notesAPI.Post("/:id/share", notes.Share)
 
 	//------------------
 	// Search APIs
 	//------------------
-	search := api.Group("/search")
-	search.Get("/")
+	searchAPI := api.Group("/search")
+	searchAPI.Get("/", search.ByQuery)
 
 	return routes
 }

@@ -1,11 +1,120 @@
 basePath: /api
+definitions:
+  auth.SignUpUserPayload:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
 host: localhost:7000
 info:
   contact: {}
   description: Yet another note taking app (for speer.io assignment)
   title: Notex API
   version: "1.0"
-paths: {}
+paths:
+  /auth/login:
+    post:
+      responses:
+        "200":
+          description: OK
+      security:
+      - BasicAuth: []
+      summary: Login user by using BasicAuth
+      tags:
+      - auth
+  /auth/signup:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Signup Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/auth.SignUpUserPayload'
+      responses:
+        "200":
+          description: OK
+      summary: Create a new user
+      tags:
+      - auth
+  /notes:
+    get:
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get a list of all notes for the authenticated user
+      tags:
+      - notes
+    post:
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new note for the authenticated user
+      tags:
+      - notes
+  /notes/{id}:
+    delete:
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a note by ID for the authenticated user
+      tags:
+      - notes
+    get:
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Get a note by ID for the authenticated user
+      tags:
+      - notes
+    put:
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Update an existing note by ID for the authenticated user
+      tags:
+      - notes
+  /notes/{id}/share:
+    post:
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Share a note with another user for the authenticated user
+      tags:
+      - notes
+  /search:
+    get:
+      parameters:
+      - description: keyword to search notes on
+        in: query
+        name: q
+        type: string
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Search for notes based on keywords for the authenticated user
+      tags:
+      - search
 schemes:
 - http
 securityDefinitions:
