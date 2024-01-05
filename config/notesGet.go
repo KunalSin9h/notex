@@ -1,14 +1,27 @@
 package config
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"net/http"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 // Get godoc
 //
 //	@summary	Get a list of all notes for the authenticated user
 //	@tags		notes
 //	@Security	ApiKeyAuth
-//	@success	200
+//	@success	200 {object} APIResponse
 //	@router		/notes [get]
 func (app *Config) Get(c *fiber.Ctx) error {
-	return nil
+	userID := c.Locals("userID").(string)
+	data, err := app.Repo.GetAllNotes(userID)
+	if err != nil {
+		return SendError(c, http.StatusInternalServerError, err)
+	}
+
+	return c.Status(http.StatusOK).JSON(APIResponse{
+		Message: "All the notes which the user have access",
+		Data:    data,
+	})
 }

@@ -25,4 +25,5 @@ type Repository interface {
 	VerifySession(accessToken string) (string, error)
 	InsertNewNotes(n *user.Notes) error
 	AddNotesAccess(userID, notesID string) error
+	GetAllNotes(userID string) ([]*user.Notes, error)
 }

@@ -42,3 +42,7 @@ func (db *MongoDBTestRepository) InsertNewNotes(n *user.Notes) error {
 func (db *MongoDBTestRepository) AddNotesAccess(userID, notesID string) error {
 	return nil
 }
+
+func (db *MongoDBTestRepository) GetAllNotes(userID string) ([]*user.Notes, error) {
+	return nil, nil
+}
