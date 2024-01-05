@@ -30,3 +30,10 @@ func (db *MongoDBRepository) GetNotesByID(id, userID string) (*user.Notes, error
 
 	return &notes, nil
 }
+
+func (db *MongoDBRepository) UpdateNotes(notes *user.Notes) error {
+	filter := bson.D{{Key: "id", Value: notes.ID}}
+
+	_, err := db.Notes.ReplaceOne(context.Background(), filter, notes)
+	return err
+}

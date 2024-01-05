@@ -189,8 +189,8 @@ const docTemplate = `{
                             "$ref": "#/definitions/config.APIResponse"
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "204": {
+                        "description": "No Content",
                         "schema": {
                             "$ref": "#/definitions/config.APIResponse"
                         }
@@ -203,10 +203,31 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
+                "consumes": [
+                    "application/json"
+                ],
                 "tags": [
                     "notes"
                 ],
                 "summary": "Update an existing note by ID for the authenticated user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Notes ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "New notes request payload",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/config.NewNotesRequestPayload"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK"

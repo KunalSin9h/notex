@@ -144,8 +144,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/config.APIResponse'
-        "500":
-          description: Internal Server Error
+        "204":
+          description: No Content
           schema:
             $ref: '#/definitions/config.APIResponse'
       security:
@@ -154,6 +154,20 @@ paths:
       tags:
       - notes
     put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Notes ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: New notes request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/config.NewNotesRequestPayload'
       responses:
         "200":
           description: OK
