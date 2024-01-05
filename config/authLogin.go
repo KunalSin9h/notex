@@ -54,9 +54,9 @@ func (app *Config) Login(c *fiber.Ctx) error {
 	// so the browser client does not have to send X-Api-Key header for api key
 	// we can get it from cookies
 	// for non-browser clients, like CLI, Mobile applications, we can sending Access Token
-	// when they can use
+	// which they can use
 	c.Cookie(&fiber.Cookie{
-		Name:     "authToken",
+		Name:     "accessToken",
 		Value:    accessToken,
 		Expires:  expirationTime,
 		Secure:   true,

@@ -27,7 +27,10 @@ func (db *MongoDBTestRepository) FindUser(username, password string) (*user.User
 	}, nil
 }
 
-
-func  (db *MongoDBTestRepository)	AddUserSession(accessToken, userID string, expiresTime time.Time) error {
+func (db *MongoDBTestRepository) AddUserSession(accessToken, userID string, expiresTime time.Time) error {
 	return nil
+}
+
+func (db *MongoDBTestRepository) VerifySession(accessToken string) (string, error) {
+	return "", nil
 }

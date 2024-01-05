@@ -59,6 +59,7 @@ func (app *Config) routes() *fiber.App {
 
 	//------------------
 	// Auth APIs
+	// Un Protected
 	//------------------
 	authAPI := api.Group("/auth")
 	authAPI.Post("/signup", app.SignUp)
@@ -66,8 +67,9 @@ func (app *Config) routes() *fiber.App {
 
 	//------------------
 	// Notes APIs
+	// Protected API Key, Access Token, Cookies
 	//------------------
-	notesAPI := api.Group("/notes")
+	notesAPI := api.Group("/notes", app.VerifyUser) // VerifyUser is auth middleware
 	notesAPI.Get("/", app.Get)
 	notesAPI.Get("/:id", app.GetByID)
 	notesAPI.Post("/", app.New)
@@ -77,8 +79,9 @@ func (app *Config) routes() *fiber.App {
 
 	//------------------
 	// Search APIs
+	// Protected API Key, Access Token, Cookies
 	//------------------
-	searchAPI := api.Group("/search")
+	searchAPI := api.Group("/search", app.VerifyUser)
 	searchAPI.Get("/", app.ByQuery)
 
 	return routes

@@ -22,4 +22,5 @@ type Repository interface {
 	InsertNewUser(u *user.User) error
 	FindUser(u, p string) (*user.User, error)
 	AddUserSession(accessToken, userID string, expiresTime time.Time) error
+	VerifySession(accessToken string) (string, error)
 }

@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/charmbracelet/log"
@@ -48,6 +49,7 @@ func NewMongoDBRepository(connectionString string) *MongoDBRepository {
 
 	uniqueConstraintUsername := options.IndexOptions{}
 	uniqueConstraintEmail := options.IndexOptions{}
+
 	uniqueConstraintUsername.SetUnique(true)
 	uniqueConstraintEmail.SetUnique(true)
 
@@ -61,12 +63,23 @@ func NewMongoDBRepository(connectionString string) *MongoDBRepository {
 		Options: &uniqueConstraintEmail,
 	}
 
+	accessToken := mongo.IndexModel{
+		Keys: bson.D{{Key: "token", Value: 1}},
+	}
+
 	indexName, err := db.Users.Indexes().CreateMany(context.Background(), []mongo.IndexModel{usernameIndex, emailIndex})
 
 	if err != nil {
 		panic(err)
 	} else {
 		log.Info("Created db index on username and email for user", "index name", indexName)
+	}
+
+	sessionIndex, err := db.SessionTokens.Indexes().CreateOne(context.Background(), accessToken)
+	if err != nil {
+		panic(err)
+	} else {
+		log.Info("Created session token index", "index name", sessionIndex)
 	}
 
 	return db
@@ -103,4 +116,25 @@ func (db *MongoDBRepository) AddUserSession(accessToken, userID string, expiresT
 
 	_, err := db.SessionTokens.InsertOne(context.Background(), session)
 	return err
+}
+
+// Check is user is in session
+func (db *MongoDBRepository) VerifySession(accessToken string) (string, error) {
+	session := user.Session{}
+
+	err := db.SessionTokens.FindOne(context.Background(), bson.D{
+		{Key: "token", Value: accessToken},
+	}).Decode(&session)
+
+	if err != nil {
+		return "", err
+	}
+
+	// Check if session is expired
+	// if current time is after the expirationTime then session is expired
+	if time.Now().After(session.ExpirationTime) {
+		return "", fmt.Errorf("session expired")
+	}
+
+	return session.UserID, nil
 }
