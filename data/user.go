@@ -27,12 +27,26 @@ func (db *MongoDBRepository) FindUser(username string) (*user.User, error) {
 	return &user, nil
 }
 
+func (db *MongoDBRepository) FindUserByID(id string) (*user.User, error) {
+	user := user.User{}
+
+	err := db.Users.FindOne(context.Background(), bson.D{
+		{Key: "id", Value: id},
+	}).Decode(&user)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
 // add a new notes as access
 // notes are independent objects units with IDs,
 // each user will have access to notes if they have a notes ID	in their NotesAccess data field
 // this function add a notes access to the user with given userID
 func (db *MongoDBRepository) AddNotesAccess(userID, notesID string) error {
-	userConcern, err := db.FindUser(userID)
+	userConcern, err := db.FindUserByID(userID)
 	if err != nil {
 		return err
 	}
@@ -47,9 +61,8 @@ func (db *MongoDBRepository) AddNotesAccess(userID, notesID string) error {
 // but replacing entire document just to update some property will not be the best option
 // to make the app simple i am doing this Unoptimized solution
 func (db *MongoDBRepository) UpdateUser(user *user.User) error {
-	filter := bson.D{{Key: "_id", Value: user.ID}}
+	filter := bson.D{{Key: "id", Value: user.ID}}
 
 	_, err := db.Users.ReplaceOne(context.Background(), filter, user)
-
 	return err
 }

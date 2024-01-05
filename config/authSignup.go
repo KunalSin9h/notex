@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"github.com/kunalsin9h/notex/user"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // SignUp godoc
@@ -29,7 +29,8 @@ func (app *Config) SignUp(c *fiber.Ctx) error {
 
 	// Creating a new User
 	newUser := user.User{}
-	newUser.ID = primitive.NewObjectID()
+	newUser.ID = uuid.NewString()
+	newUser.NotesAccess = make([]string, 0)
 
 	newUser.Username, err = user.ParseUsername(reqBody.Username)
 	if err != nil {

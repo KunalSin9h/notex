@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"github.com/kunalsin9h/notex/user"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // New godoc
@@ -30,7 +30,7 @@ func (app *Config) New(c *fiber.Ctx) error {
 	}
 
 	newNotes := user.Notes{
-		ID:       primitive.NewObjectID(),
+		ID:       uuid.NewString(),
 		AuthorID: userID,
 		Title:    reqPayload.Title,
 		Body:     reqPayload.Body,
@@ -40,7 +40,7 @@ func (app *Config) New(c *fiber.Ctx) error {
 		return SendErrorWithMessage(c, http.StatusInternalServerError, err, "Failed to create new notes")
 	}
 
-	if err := app.Repo.AddNotesAccess(userID, newNotes.ID.String()); err != nil {
+	if err := app.Repo.AddNotesAccess(userID, newNotes.ID); err != nil {
 		return SendErrorWithMessage(c, http.StatusInternalServerError, err, "Failed to give access to notes")
 	}
 

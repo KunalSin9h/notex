@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/kunalsin9h/notex/user"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // Add a new Session
@@ -16,7 +16,7 @@ func (db *MongoDBRepository) AddUserSession(accessToken, userID string, expiresT
 		Token:          accessToken,
 		UserID:         userID,
 		ExpirationTime: expiresTime,
-		ID:             primitive.NewObjectID(),
+		ID:             uuid.NewString(),
 	}
 
 	_, err := db.SessionTokens.InsertOne(context.Background(), session)

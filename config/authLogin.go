@@ -48,7 +48,7 @@ func (app *Config) Login(c *fiber.Ctx) error {
 	expirationTime := time.Now().Add(1 * time.Hour)
 
 	// Asynchronously Adding user to session
-	go app.Repo.AddUserSession(accessToken, user.ID.String(), expirationTime)
+	go app.Repo.AddUserSession(accessToken, user.ID, expirationTime)
 
 	// Additionally Setting up cookies with accessToken
 	// so the browser client does not have to send X-Api-Key header for api key

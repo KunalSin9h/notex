@@ -2,7 +2,6 @@ package user
 
 import (
 	"github.com/kunalsin9h/notex/password"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 var argon2Param = password.Params{
@@ -14,11 +13,11 @@ var argon2Param = password.Params{
 }
 
 type User struct {
-	ID           primitive.ObjectID `bson:"_id" json:"id,omitempty"`
-	Username     Username           `json:"username"`
-	Email        Email              `json:"email"`
-	PasswordHash PasswordHash       `json:"passwordHash"`
-	NotesAccess  []string           `json:"notesAccess"` // IDs notes which the user have access
+	ID           string       `json:"id"`
+	Username     Username     `json:"username"`
+	Email        Email        `json:"email"`
+	PasswordHash PasswordHash `json:"passwordHash"`
+	NotesAccess  []string     `json:"notesAccess"` // IDs notes which the user have access
 }
 
 type Username string
