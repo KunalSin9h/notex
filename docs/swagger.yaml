@@ -8,6 +8,13 @@ definitions:
       message:
         type: string
     type: object
+  config.NewNotesRequestPayload:
+    properties:
+      body:
+        type: string
+      title:
+        type: string
+    type: object
   config.SignUpUserPayload:
     properties:
       email:
@@ -29,6 +36,16 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - BasicAuth: []
       summary: Login user by using BasicAuth
@@ -72,9 +89,28 @@ paths:
       tags:
       - notes
     post:
+      consumes:
+      - application/json
+      parameters:
+      - description: New notes request payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/config.NewNotesRequestPayload'
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - ApiKeyAuth: []
       summary: Create a new note for the authenticated user

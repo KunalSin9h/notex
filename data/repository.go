@@ -20,7 +20,9 @@ import (
 
 type Repository interface {
 	InsertNewUser(u *user.User) error
-	FindUser(u, p string) (*user.User, error)
+	FindUser(u string) (*user.User, error)
 	AddUserSession(accessToken, userID string, expiresTime time.Time) error
 	VerifySession(accessToken string) (string, error)
+	InsertNewNotes(n *user.Notes) error
+	AddNotesAccess(userID, notesID string) error
 }

@@ -27,7 +27,7 @@ func (app *Config) Login(c *fiber.Ctx) error {
 		return SendError(c, http.StatusBadRequest, fmt.Errorf("invalid username or password"))
 	}
 
-	user, err := app.Repo.FindUser(username, password)
+	user, err := app.Repo.FindUser(username)
 
 	if err != nil {
 		return SendErrorWithMessage(c, http.StatusBadRequest, err, "Username does not exists, signup first")

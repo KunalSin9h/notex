@@ -18,6 +18,7 @@ type User struct {
 	Username     Username           `json:"username"`
 	Email        Email              `json:"email"`
 	PasswordHash PasswordHash       `json:"passwordHash"`
+	NotesAccess  []string           `json:"notesAccess"` // IDs notes which the user have access
 }
 
 type Username string

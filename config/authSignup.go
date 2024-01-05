@@ -13,10 +13,10 @@ import (
 //	@summary	Create a new user
 //	@tags		auth
 //	@accept		json
-//	@param		request	body	SignUpUserPayload	true	"Signup Request body"
-//	@success	200 {object}    APIResponse
-//	@failure	400	{object}	APIResponse
-//	@failure	500	{object}	APIResponse
+//	@param		request	body		SignUpUserPayload	true	"Signup Request body"
+//	@success	200		{object}	APIResponse
+//	@failure	400		{object}	APIResponse
+//	@failure	500		{object}	APIResponse
 //	@router		/auth/signup [post]
 func (app *Config) SignUp(c *fiber.Ctx) error {
 	var reqBody SignUpUserPayload

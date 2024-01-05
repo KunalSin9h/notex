@@ -1,14 +1,56 @@
 package config
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"net/http"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/kunalsin9h/notex/user"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 // New godoc
 //
 //	@summary	Create a new note for the authenticated user
 //	@tags		notes
 //	@Security	ApiKeyAuth
-//	@success	200
+//	@accept		json
+//	@param		request	body NewNotesRequestPayload  true "New notes request payload"
+//	@success	200 {object} APIResponse
+//	@success	400 {object} APIResponse
+//	@success	500 {object} APIResponse
 //	@router		/notes [post]
 func (app *Config) New(c *fiber.Ctx) error {
-	return nil
+	// The current logged in user, this variable is set at the Auth Middleware
+	userID := c.Locals("userID").(string)
+
+	var reqPayload NewNotesRequestPayload
+
+	if err := c.BodyParser(&reqPayload); err != nil {
+		return SendError(c, http.StatusBadRequest, err)
+	}
+
+	newNotes := user.Notes{
+		ID:       primitive.NewObjectID(),
+		AuthorID: userID,
+		Title:    reqPayload.Title,
+		Body:     reqPayload.Body,
+	}
+
+	if err := app.Repo.InsertNewNotes(&newNotes); err != nil {
+		return SendErrorWithMessage(c, http.StatusInternalServerError, err, "Failed to create new notes")
+	}
+
+	if err := app.Repo.AddNotesAccess(userID, newNotes.ID.String()); err != nil {
+		return SendErrorWithMessage(c, http.StatusInternalServerError, err, "Failed to give access to notes")
+	}
+
+	return c.Status(http.StatusOK).JSON(APIResponse{
+		Message: "New notes created",
+		Data:    newNotes.ID,
+	})
+}
+
+type NewNotesRequestPayload struct {
+	Title string `json:"title"`
+	Body  string `json:"body"`
 }

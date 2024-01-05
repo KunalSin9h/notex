@@ -19,7 +19,7 @@ func (db *MongoDBTestRepository) InsertNewUser(u *user.User) error {
 	return nil
 }
 
-func (db *MongoDBTestRepository) FindUser(username, password string) (*user.User, error) {
+func (db *MongoDBTestRepository) FindUser(username string) (*user.User, error) {
 	return &user.User{
 		Username:     "dummy",
 		PasswordHash: "dummy",
@@ -33,4 +33,12 @@ func (db *MongoDBTestRepository) AddUserSession(accessToken, userID string, expi
 
 func (db *MongoDBTestRepository) VerifySession(accessToken string) (string, error) {
 	return "", nil
+}
+
+func (db *MongoDBTestRepository) InsertNewNotes(n *user.Notes) error {
+	return nil
+}
+
+func (db *MongoDBTestRepository) AddNotesAccess(userID, notesID string) error {
+	return nil
 }
