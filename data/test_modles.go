@@ -54,3 +54,7 @@ func (db *MongoDBTestRepository) GetNotesByID(id, userID string) (*user.Notes, e
 func (db *MongoDBTestRepository) UpdateNotes(notes *user.Notes) error {
 	return nil
 }
+
+func (db *MongoDBTestRepository) DeleteNotes(notesID, userID string) error {
+	return nil
+}

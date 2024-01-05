@@ -28,4 +28,5 @@ type Repository interface {
 	GetAllNotes(userID string) ([]*user.Notes, error)
 	GetNotesByID(id, userID string) (*user.Notes, error)
 	UpdateNotes(notes *user.Notes) error
+	DeleteNotes(notesID, userID string) error
 }

@@ -230,7 +230,16 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/config.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/config.APIResponse"
+                        }
                     }
                 }
             },
@@ -244,9 +253,27 @@ const docTemplate = `{
                     "notes"
                 ],
                 "summary": "Delete a note by ID for the authenticated user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Notes ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/config.APIResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/config.APIResponse"
+                        }
                     }
                 }
             }

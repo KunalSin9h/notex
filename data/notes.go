@@ -31,9 +31,23 @@ func (db *MongoDBRepository) GetNotesByID(id, userID string) (*user.Notes, error
 	return &notes, nil
 }
 
+// Update notes just like update user function is not 100% optimized
+// we can update each property, instead to make app simple i am
+// replacing the entire document.
 func (db *MongoDBRepository) UpdateNotes(notes *user.Notes) error {
 	filter := bson.D{{Key: "id", Value: notes.ID}}
 
 	_, err := db.Notes.ReplaceOne(context.Background(), filter, notes)
+	return err
+}
+
+func (db *MongoDBRepository) DeleteNotes(notesID, userID string) error {
+	filter := bson.D{
+		{Key: "id", Value: notesID},
+		{Key: "authorid", Value: userID},
+	}
+
+	_, err := db.Notes.DeleteOne(context.Background(), filter)
+
 	return err
 }

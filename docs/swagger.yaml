@@ -124,9 +124,21 @@ paths:
       - notes
   /notes/{id}:
     delete:
+      parameters:
+      - description: Notes ID
+        in: path
+        name: id
+        required: true
+        type: string
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - ApiKeyAuth: []
       summary: Delete a note by ID for the authenticated user
@@ -171,6 +183,12 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - ApiKeyAuth: []
       summary: Update an existing note by ID for the authenticated user

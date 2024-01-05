@@ -15,7 +15,8 @@ import (
 //	@param		id	path	string	true	"Notes ID"
 //	@param		request	body		NewNotesRequestPayload	true	"New notes request payload"
 //	@Security	ApiKeyAuth
-//	@success	200
+//	@success	200 {object} APIResponse
+//	@success	400 {object} APIResponse
 //	@router		/notes/{id} [put]
 func (app *Config) Update(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(string)
