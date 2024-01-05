@@ -12,6 +12,7 @@ import (
 //	@tags		notes
 //	@Security	ApiKeyAuth
 //	@success	200 {object} APIResponse
+//	@success	500 {object} APIResponse
 //	@router		/notes [get]
 func (app *Config) Get(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(string)
@@ -21,7 +22,7 @@ func (app *Config) Get(c *fiber.Ctx) error {
 	}
 
 	return c.Status(http.StatusOK).JSON(APIResponse{
-		Message: "All the notes which the user have access",
+		Message: "Successfully get all the notes which the user have access",
 		Data:    data,
 	})
 }

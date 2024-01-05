@@ -13,7 +13,7 @@ func (db *MongoDBRepository) InsertNewNotes(n *user.Notes) error {
 	return err
 }
 
-func (db *MongoDBRepository) GetNotesByID(id string) (*user.Notes, error) {
+func (db *MongoDBRepository) GetNotesByID(id, userID string) (*user.Notes, error) {
 	notes := user.Notes{}
 
 	err := db.Notes.FindOne(context.Background(), bson.D{
@@ -22,6 +22,10 @@ func (db *MongoDBRepository) GetNotesByID(id string) (*user.Notes, error) {
 
 	if err != nil {
 		return nil, err
+	}
+
+	if notes.AuthorID != userID {
+		return nil, nil
 	}
 
 	return &notes, nil

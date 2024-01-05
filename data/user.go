@@ -76,7 +76,7 @@ func (db *MongoDBRepository) GetAllNotes(userID string) ([]*user.Notes, error) {
 	var res []*user.Notes
 
 	for _, notesID := range userConcern.NotesAccess {
-		notes, err := db.GetNotesByID(notesID)
+		notes, err := db.GetNotesByID(notesID, userID)
 		if err != nil {
 			return nil, err
 		}
