@@ -16,7 +16,7 @@ func (db *MongoDBRepository) InsertNewNotes(n *user.Notes) error {
 func (db *MongoDBRepository) GetNotesByID(id string) (*user.Notes, error) {
 	notes := user.Notes{}
 
-	err := db.Users.FindOne(context.Background(), bson.D{
+	err := db.Notes.FindOne(context.Background(), bson.D{
 		{Key: "id", Value: id},
 	}).Decode(&notes)
 
