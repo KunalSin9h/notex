@@ -45,8 +45,8 @@ func (db *MongoDBRepository) FindUserByID(id string) (*user.User, error) {
 // notes are independent objects units with IDs,
 // each user will have access to notes if they have a notes ID	in their NotesAccess data field
 // this function add a notes access to the user with given userID
-func (db *MongoDBRepository) AddNotesAccess(userID, notesID string) error {
-	userConcern, err := db.FindUserByID(userID)
+func (db *MongoDBRepository) AddNotesAccess(username, notesID string) error {
+	userConcern, err := db.FindUser(username)
 	if err != nil {
 		return err
 	}

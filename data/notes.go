@@ -51,3 +51,21 @@ func (db *MongoDBRepository) DeleteNotes(notesID, userID string) error {
 
 	return err
 }
+
+func (db *MongoDBRepository) ShareNotes(notesID, userID string, usersToShare []string) error {
+	// This verifies that user owns the notes, i.e current logged in user is the
+	// author of the notes
+	_, err := db.GetNotesByID(notesID, userID)
+	if err != nil {
+		return err
+	}
+
+	// giving access to all the users specified
+	for _, username := range usersToShare {
+		if err := db.AddNotesAccess(username, notesID); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}

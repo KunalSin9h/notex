@@ -21,6 +21,7 @@ import (
 type Repository interface {
 	InsertNewUser(u *user.User) error
 	FindUser(u string) (*user.User, error)
+	FindUserByID(id string) (*user.User, error)
 	AddUserSession(accessToken, userID string, expiresTime time.Time) error
 	VerifySession(accessToken string) (string, error)
 	InsertNewNotes(n *user.Notes) error
@@ -29,4 +30,5 @@ type Repository interface {
 	GetNotesByID(id, userID string) (*user.Notes, error)
 	UpdateNotes(notes *user.Notes) error
 	DeleteNotes(notesID, userID string) error
+	ShareNotes(notesID, userID string, usersToShare []string) error
 }

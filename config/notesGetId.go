@@ -13,7 +13,7 @@ import (
 //	@param		id	path	string	true	"Notes ID"
 //	@Security	ApiKeyAuth
 //	@success	200	{object}	APIResponse
-//	@success	204	{object}	APIResponse
+//	@failure	404	{object}	APIResponse
 //	@router		/notes/{id} [get]
 func (app *Config) GetByID(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(string)
@@ -23,7 +23,7 @@ func (app *Config) GetByID(c *fiber.Ctx) error {
 
 	data, err := app.Repo.GetNotesByID(notesID, userID)
 	if err != nil {
-		return SendErrorWithMessage(c, http.StatusNoContent, err, "No notes with that id")
+		return SendErrorWithMessage(c, http.StatusNotFound, err, "No notes with that id")
 	}
 
 	return c.Status(http.StatusOK).JSON(APIResponse{

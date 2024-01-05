@@ -40,7 +40,12 @@ func (app *Config) New(c *fiber.Ctx) error {
 		return SendErrorWithMessage(c, http.StatusInternalServerError, err, "Failed to create new notes")
 	}
 
-	if err := app.Repo.AddNotesAccess(userID, newNotes.ID); err != nil {
+	user, err := app.Repo.FindUserByID(userID)
+	if err != nil {
+		return SendError(c, http.StatusBadRequest, err)
+	}
+
+	if err := app.Repo.AddNotesAccess(string(user.Username), newNotes.ID); err != nil {
 		return SendErrorWithMessage(c, http.StatusInternalServerError, err, "Failed to give access to notes")
 	}
 

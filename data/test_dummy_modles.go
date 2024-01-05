@@ -27,6 +27,10 @@ func (db *MongoDBTestRepository) FindUser(username string) (*user.User, error) {
 	}, nil
 }
 
+func (db *MongoDBTestRepository) FindUserByID(id string) (*user.User, error) {
+	return nil, nil
+}
+
 func (db *MongoDBTestRepository) AddUserSession(accessToken, userID string, expiresTime time.Time) error {
 	return nil
 }
@@ -56,5 +60,9 @@ func (db *MongoDBTestRepository) UpdateNotes(notes *user.Notes) error {
 }
 
 func (db *MongoDBTestRepository) DeleteNotes(notesID, userID string) error {
+	return nil
+}
+
+func (db *MongoDBTestRepository) ShareNotes(notesID, userID string, usersToShare []string) error {
 	return nil
 }

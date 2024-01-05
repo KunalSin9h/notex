@@ -12,11 +12,11 @@ import (
 //	@summary	Update an existing note by ID for the authenticated user
 //	@tags		notes
 //	@accept		json
-//	@param		id	path	string	true	"Notes ID"
-//	@param		request	body		NewNotesRequestPayload	true	"New notes request payload"
+//	@param		id		path	string					true	"Notes ID"
+//	@param		request	body	NewNotesRequestPayload	true	"New notes request payload"
 //	@Security	ApiKeyAuth
-//	@success	200 {object} APIResponse
-//	@success	400 {object} APIResponse
+//	@success	200	{object}	APIResponse
+//	@success	400	{object}	APIResponse
 //	@router		/notes/{id} [put]
 func (app *Config) Update(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(string)
