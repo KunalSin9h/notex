@@ -27,7 +27,7 @@ type Repository interface {
 	InsertNewNotes(n *user.Notes) error
 	AddNotesAccess(userID, notesID string) error
 	GetAllNotes(userID string) ([]*user.Notes, error)
-	GetNotesByID(id, userID string) (*user.Notes, error)
+	GetNotesByID(id string) (*user.Notes, error)
 	UpdateNotes(notes *user.Notes) error
 	DeleteNotes(notesID, userID string) error
 	ShareNotes(notesID, userID string, usersToShare []string) error

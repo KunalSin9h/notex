@@ -51,7 +51,7 @@ func (db *MongoDBTestRepository) GetAllNotes(userID string) ([]*user.Notes, erro
 	return nil, nil
 }
 
-func (db *MongoDBTestRepository) GetNotesByID(id, userID string) (*user.Notes, error) {
+func (db *MongoDBTestRepository) GetNotesByID(id string) (*user.Notes, error) {
 	return nil, nil
 }
 

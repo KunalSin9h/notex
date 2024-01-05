@@ -22,7 +22,7 @@ func (db *MongoDBRepository) GetAllNotes(userID string) ([]*user.Notes, error) {
 	var res []*user.Notes
 
 	for _, notesID := range userConcern.NotesAccess {
-		notes, err := db.GetNotesByID(notesID, userID)
+		notes, err := db.GetNotesByID(notesID)
 		if err != nil {
 			return nil, err
 		}
@@ -33,7 +33,7 @@ func (db *MongoDBRepository) GetAllNotes(userID string) ([]*user.Notes, error) {
 	return res, nil
 }
 
-func (db *MongoDBRepository) GetNotesByID(id, userID string) (*user.Notes, error) {
+func (db *MongoDBRepository) GetNotesByID(id string) (*user.Notes, error) {
 	notes := user.Notes{}
 
 	err := db.Notes.FindOne(context.Background(), bson.D{
@@ -71,7 +71,7 @@ func (db *MongoDBRepository) DeleteNotes(notesID, userID string) error {
 func (db *MongoDBRepository) ShareNotes(notesID, userID string, usersToShare []string) error {
 	// This verifies that user owns the notes, i.e current logged in user is the
 	// author of the notes
-	_, err := db.GetNotesByID(notesID, userID)
+	_, err := db.GetNotesByID(notesID)
 	if err != nil {
 		return err
 	}

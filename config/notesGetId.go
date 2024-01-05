@@ -21,8 +21,9 @@ func (app *Config) GetByID(c *fiber.Ctx) error {
 	// NotesID is given by query parameter of the request
 	notesID := c.Params("id")
 
-	data, err := app.Repo.GetNotesByID(notesID, userID)
-	if err != nil {
+	data, err := app.Repo.GetNotesByID(notesID)
+
+	if err != nil || data.AuthorID != userID {
 		return SendErrorWithMessage(c, http.StatusNotFound, err, "No notes with that id")
 	}
 
