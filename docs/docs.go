@@ -49,7 +49,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/auth.SignUpUserPayload"
+                            "$ref": "#/definitions/config.SignUpUserPayload"
                         }
                     }
                 ],
@@ -190,7 +190,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "auth.SignUpUserPayload": {
+        "config.SignUpUserPayload": {
             "type": "object",
             "properties": {
                 "email": {

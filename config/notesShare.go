@@ -1,4 +1,4 @@
-package notes
+package config
 
 import "github.com/gofiber/fiber/v2"
 
@@ -9,6 +9,6 @@ import "github.com/gofiber/fiber/v2"
 //	@Security	ApiKeyAuth
 //	@success	200
 //	@router		/notes/{id}/share [post]
-func Share(c *fiber.Ctx) error {
+func (app *Config) Share(c *fiber.Ctx) error {
 	return nil
 }

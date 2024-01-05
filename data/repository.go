@@ -1,5 +1,7 @@
 package data
 
+import "github.com/kunalsin9h/notex/user"
+
 /*
 	Repository Method to make our handlers testable by mocking database.
 
@@ -12,4 +14,6 @@ package data
 	data without query the database, this is used for integration testing
 */
 
-type Repository interface{}
+type Repository interface {
+	InsertNewUser(u *user.User) error
+}

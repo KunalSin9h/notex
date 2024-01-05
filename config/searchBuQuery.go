@@ -1,4 +1,4 @@
-package search
+package config
 
 import "github.com/gofiber/fiber/v2"
 
@@ -10,6 +10,6 @@ import "github.com/gofiber/fiber/v2"
 //	@Param		q	query	string	false	"keyword to search notes on"
 //	@success	200
 //	@router		/search [get]
-func ByQuery(c *fiber.Ctx) error {
+func (app *Config) ByQuery(c *fiber.Ctx) error {
 	return nil
 }

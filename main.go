@@ -1,18 +1,10 @@
 package main
 
 import (
+	"github.com/kunalsin9h/notex/config"
 	"github.com/kunalsin9h/notex/data"
 	_ "github.com/kunalsin9h/notex/docs"
 )
-
-/*
-data.Repository is an interface which we will use to put a real MongoDB database when deploying in production
-and put a mock database for testing
-*/
-type Config struct {
-	Repo data.Repository
-	Port uint16
-}
 
 // @title						Notex API
 // @version					1.0
@@ -30,10 +22,10 @@ func main() {
 	// to make application simple they are hard coded here
 	mongoDBConnectionString := "mongodb://localhost:27017" // !
 
-	app := &Config{
+	app := &config.Config{
 		Repo: data.NewMongoDBRepository(mongoDBConnectionString),
 		Port: 7000, // !
 	}
 
-	app.run()
+	app.Run()
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/kunalsin9h/notex/user"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -35,4 +36,8 @@ func NewMongoDBRepository(connectionString string) *MongoDBRepository {
 	return &MongoDBRepository{
 		Conn: client,
 	}
+}
+
+func (db *MongoDBRepository) InsertNewUser(user *user.User) error {
+	return nil
 }

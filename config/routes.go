@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -10,13 +10,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/swagger"
-	"github.com/kunalsin9h/notex/api/auth"
-	"github.com/kunalsin9h/notex/api/notes"
-	"github.com/kunalsin9h/notex/api/search"
 )
 
 // Running application
-func (app *Config) run() {
+func (app *Config) Run() {
 	if err := app.routes().Listen(fmt.Sprintf(":%d", app.Port)); err != nil {
 		panic(err)
 	}
@@ -64,25 +61,25 @@ func (app *Config) routes() *fiber.App {
 	// Auth APIs
 	//------------------
 	authAPI := api.Group("/auth")
-	authAPI.Post("/signup", auth.Login)
-	authAPI.Post("/login", auth.SignUp)
+	authAPI.Post("/signup", app.Login)
+	authAPI.Post("/login", app.SignUp)
 
 	//------------------
 	// Notes APIs
 	//------------------
 	notesAPI := api.Group("/notes")
-	notesAPI.Get("/", notes.Get)
-	notesAPI.Get("/:id", notes.GetByID)
-	notesAPI.Post("/", notes.New)
-	notesAPI.Put("/:id", notes.Update)
-	notesAPI.Delete("/:id", notes.Delete)
-	notesAPI.Post("/:id/share", notes.Share)
+	notesAPI.Get("/", app.Get)
+	notesAPI.Get("/:id", app.GetByID)
+	notesAPI.Post("/", app.New)
+	notesAPI.Put("/:id", app.Update)
+	notesAPI.Delete("/:id", app.Delete)
+	notesAPI.Post("/:id/share", app.Share)
 
 	//------------------
 	// Search APIs
 	//------------------
 	searchAPI := api.Group("/search")
-	searchAPI.Get("/", search.ByQuery)
+	searchAPI.Get("/", app.ByQuery)
 
 	return routes
 }

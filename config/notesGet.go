@@ -1,4 +1,4 @@
-package notes
+package config
 
 import "github.com/gofiber/fiber/v2"
 
@@ -9,6 +9,6 @@ import "github.com/gofiber/fiber/v2"
 //	@Security	ApiKeyAuth
 //	@success	200
 //	@router		/notes [get]
-func Get(c *fiber.Ctx) error {
+func (app *Config) Get(c *fiber.Ctx) error {
 	return nil
 }

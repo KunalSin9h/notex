@@ -1,4 +1,4 @@
-package auth
+package config
 
 import "github.com/gofiber/fiber/v2"
 
@@ -9,6 +9,6 @@ import "github.com/gofiber/fiber/v2"
 //	@Security	BasicAuth
 //	@success	200
 //	@router		/auth/login [post]
-func Login(c *fiber.Ctx) error {
+func (app *Config) Login(c *fiber.Ctx) error {
 	return nil
 }
