@@ -1,6 +1,9 @@
 package user
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/kunalsin9h/notex/password"
 )
 
@@ -25,14 +28,37 @@ type Email string
 type PasswordHash string
 
 func ParseUsername(row string) (Username, error) {
+	if len(row) < 3 || len(row) > 14 {
+		return Username(""), fmt.Errorf("username is either too short or too long, it must be in between 3 and 14 (included)")
+	}
+
+	if len(strings.Split(row, " ")) != 1 {
+		return Username(""), fmt.Errorf("username should not contain spaces")
+	}
+
+	// more parsing rules
+	// sticking with only 2 to make it simple
 	return Username(row), nil
 }
 
 func ParseEmail(row string) (Email, error) {
+	if strings.Count(row, "@") != 1 || strings.Count(row, ".") != 1 {
+		return Email(""), fmt.Errorf("invalid email")
+	}
+
+	// we can have more email parsing rules
+	// like check domains, length etc
+
 	return Email(row), nil
 }
 
 func ParsePassword(row string) (PasswordHash, error) {
+	if len(row) < 8 || len(row) > 25 {
+		return PasswordHash(""), fmt.Errorf("password is either too short or too long, it must be in between 8 and 25 (included)")
+	}
+
+	// more parsing rules, here
+
 	return PasswordHash(row), nil
 }
 
