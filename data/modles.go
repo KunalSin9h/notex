@@ -79,5 +79,22 @@ func NewMongoDBRepository(connectionString string) *MongoDBRepository {
 		log.Info("Created session token index", "index name", sessionIndex)
 	}
 
+	// TEXT Indexing
+	// used for text searching
+	textSearchIndexing := mongo.IndexModel{
+		Keys: bson.D{
+			{Key: "title", Value: "text"},
+			{Key: "body", Value: "text"},
+		},
+	}
+
+	notesIndex, err := db.Notes.Indexes().CreateOne(context.Background(), textSearchIndexing)
+
+	if err != nil {
+		panic(err)
+	} else {
+		log.Info("Created text searching index on notes", "index name", notesIndex)
+	}
+
 	return db
 }
