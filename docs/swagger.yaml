@@ -241,6 +241,12 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - ApiKeyAuth: []
       summary: Search for notes based on keywords for the authenticated user

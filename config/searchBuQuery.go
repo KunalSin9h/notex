@@ -19,8 +19,11 @@ import (
 func (app *Config) ByQuery(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(string)
 
-	query := c.Query("q", "---")
-	fmt.Println(query)
+	query := c.Query("q", "")
+
+	if query == "" {
+		return SendError(c, http.StatusBadRequest, fmt.Errorf("missing query"))
+	}
 
 	data, err := app.Repo.SearchNotes(userID, query)
 	if err != nil {
