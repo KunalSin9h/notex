@@ -31,4 +31,5 @@ type Repository interface {
 	UpdateNotes(notes *user.Notes) error
 	DeleteNotes(notesID, userID string) error
 	ShareNotes(notesID, userID string, usersToShare []string) error
+	SearchNotes(userID, query string) ([]*user.Notes, error)
 }

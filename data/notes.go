@@ -85,3 +85,32 @@ func (db *MongoDBRepository) ShareNotes(notesID, userID string, usersToShare []s
 
 	return nil
 }
+
+func (db *MongoDBRepository) SearchNotes(userID, query string) ([]*user.Notes, error) {
+	filter := bson.D{{Key: "$text", Value: bson.D{{Key: "$search", Value: query}}}}
+
+	cursor, err := db.Notes.Find(context.Background(), filter)
+	if err != nil {
+		return nil, err
+	}
+
+	userConcern, err := db.FindUserByID(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	var notes []user.Notes
+	if err = cursor.All(context.Background(), &notes); err != nil {
+		return nil, err
+	}
+
+	var results []*user.Notes
+
+	for _, note := range notes {
+		if userConcern.HasNotesAccess(note.ID) {
+			results = append(results, &note)
+		}
+	}
+
+	return results, nil
+}

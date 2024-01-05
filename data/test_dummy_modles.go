@@ -66,3 +66,7 @@ func (db *MongoDBTestRepository) DeleteNotes(notesID, userID string) error {
 func (db *MongoDBTestRepository) ShareNotes(notesID, userID string, usersToShare []string) error {
 	return nil
 }
+
+func (db *MongoDBTestRepository) SearchNotes(userID, query string) ([]*user.Notes, error) {
+	return nil, nil
+}
