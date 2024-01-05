@@ -66,23 +66,3 @@ func (db *MongoDBRepository) UpdateUser(user *user.User) error {
 	_, err := db.Users.ReplaceOne(context.Background(), filter, user)
 	return err
 }
-
-func (db *MongoDBRepository) GetAllNotes(userID string) ([]*user.Notes, error) {
-	userConcern, err := db.FindUserByID(userID)
-	if err != nil {
-		return nil, err
-	}
-
-	var res []*user.Notes
-
-	for _, notesID := range userConcern.NotesAccess {
-		notes, err := db.GetNotesByID(notesID, userID)
-		if err != nil {
-			return nil, err
-		}
-
-		res = append(res, notes)
-	}
-
-	return res, nil
-}

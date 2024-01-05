@@ -13,6 +13,26 @@ func (db *MongoDBRepository) InsertNewNotes(n *user.Notes) error {
 	return err
 }
 
+func (db *MongoDBRepository) GetAllNotes(userID string) ([]*user.Notes, error) {
+	userConcern, err := db.FindUserByID(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	var res []*user.Notes
+
+	for _, notesID := range userConcern.NotesAccess {
+		notes, err := db.GetNotesByID(notesID, userID)
+		if err != nil {
+			return nil, err
+		}
+
+		res = append(res, notes)
+	}
+
+	return res, nil
+}
+
 func (db *MongoDBRepository) GetNotesByID(id, userID string) (*user.Notes, error) {
 	notes := user.Notes{}
 
@@ -22,10 +42,6 @@ func (db *MongoDBRepository) GetNotesByID(id, userID string) (*user.Notes, error
 
 	if err != nil {
 		return nil, err
-	}
-
-	if notes.AuthorID != userID {
-		return nil, nil
 	}
 
 	return &notes, nil
