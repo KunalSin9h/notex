@@ -14,8 +14,8 @@ import (
 //	@param		id		path	string					true	"Notes ID"
 //	@param		request	body	UsersToShareNotesData	true	"usernames os users to share notes"
 //	@Security	ApiKeyAuth
-//	@success	200	{object}	APIResponses
-//	@success	400	{object}	APIResponses
+//	@success	200	{object}	APIResponse
+//	@success	400	{object}	APIResponse
 //	@router		/notes/{id}/share [post]
 func (app *Config) Share(c *fiber.Ctx) error {
 	currentLoggedInUser := c.Locals("userID").(string)

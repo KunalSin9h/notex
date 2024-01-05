@@ -24,6 +24,13 @@ definitions:
       username:
         type: string
     type: object
+  config.UsersToShareNotesData:
+    properties:
+      users:
+        items:
+          type: string
+        type: array
+    type: object
 host: localhost:7000
 info:
   contact: {}
@@ -156,8 +163,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/config.APIResponse'
-        "204":
-          description: No Content
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/config.APIResponse'
       security:
@@ -196,9 +203,29 @@ paths:
       - notes
   /notes/{id}/share:
     post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Notes ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: usernames os users to share notes
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/config.UsersToShareNotesData'
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - ApiKeyAuth: []
       summary: Share a note with another user for the authenticated user
