@@ -1,15 +1,23 @@
 package user
 
 import (
-	"github.com/google/uuid"
 	"github.com/kunalsin9h/notex/password"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+var argon2Param = password.Params{
+	Memory:      64 * 1024,
+	Iterations:  3,
+	Parallelism: 2,
+	SaltLength:  16,
+	KeyLength:   32,
+}
+
 type User struct {
-	ID           uuid.UUID    `json:"id"`
-	Username     Username     `json:"username"`
-	Email        Email        `json:"email"`
-	PasswordHash PasswordHash `json:"passwordHash"`
+	ID           primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	Username     Username           `json:"username"`
+	Email        Email              `json:"email"`
+	PasswordHash PasswordHash       `json:"passwordHash"`
 }
 
 type Username string
@@ -29,14 +37,6 @@ func ParsePassword(row string) (PasswordHash, error) {
 }
 
 func (u *User) HashPassword(row string) error {
-	argon2Param := password.Params{
-		Memory:      64 * 1024,
-		Iterations:  3,
-		Parallelism: 2,
-		SaltLength:  16,
-		KeyLength:   32,
-	}
-
 	hash, err := password.GenerateFromPassword(row, &argon2Param)
 	if err != nil {
 		return err
@@ -44,4 +44,8 @@ func (u *User) HashPassword(row string) error {
 
 	u.PasswordHash = PasswordHash(hash)
 	return nil
+}
+
+func (u *User) VerifyPassword(passwordText string) (bool, error) {
+	return password.ComparePasswordAndHash(passwordText, string(u.PasswordHash))
 }

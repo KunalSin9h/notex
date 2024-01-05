@@ -1,6 +1,10 @@
 package data
 
-import "github.com/kunalsin9h/notex/user"
+import (
+	"time"
+
+	"github.com/kunalsin9h/notex/user"
+)
 
 /*
 	Repository Method to make our handlers testable by mocking database.
@@ -16,4 +20,6 @@ import "github.com/kunalsin9h/notex/user"
 
 type Repository interface {
 	InsertNewUser(u *user.User) error
+	FindUser(u, p string) (*user.User, error)
+	AddUserSession(accessToken, userID string, expiresTime time.Time) error
 }
