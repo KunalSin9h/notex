@@ -23,6 +23,7 @@ type User struct {
 	NotesAccess  []string     `json:"notesAccess"` // IDs notes which the user have access
 }
 
+// Domain Driven Architecture
 type Username string
 type Email string
 type PasswordHash string
