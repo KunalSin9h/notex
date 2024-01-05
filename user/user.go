@@ -6,10 +6,10 @@ import (
 )
 
 type User struct {
-	ID           uuid.UUID
-	Username     Username
-	Email        Email
-	PasswordHash PasswordHash
+	ID           uuid.UUID    `json:"id"`
+	Username     Username     `json:"username"`
+	Email        Email        `json:"email"`
+	PasswordHash PasswordHash `json:"passwordHash"`
 }
 
 type Username string
@@ -17,15 +17,15 @@ type Email string
 type PasswordHash string
 
 func ParseUsername(row string) (Username, error) {
-	return "", nil
+	return Username(row), nil
 }
 
 func ParseEmail(row string) (Email, error) {
-	return "", nil
+	return Email(row), nil
 }
 
 func ParsePassword(row string) (PasswordHash, error) {
-	return "", nil
+	return PasswordHash(row), nil
 }
 
 func (u *User) HashPassword(row string) error {

@@ -52,10 +52,12 @@ func (app *Config) SignUp(c *fiber.Ctx) error {
 	}
 
 	if err := app.Repo.InsertNewUser(&newUser); err != nil {
-		return SendError(c, http.StatusBadRequest, err)
+		return SendErrorWithMessage(c, http.StatusBadRequest, err, "Failed to insert new user, may be username or email already exists")
 	}
 
-	return nil
+	return c.Status(200).JSON(APIResponse{
+		Message: "New user created",
+	})
 }
 
 type SignUpUserPayload struct {

@@ -61,8 +61,8 @@ func (app *Config) routes() *fiber.App {
 	// Auth APIs
 	//------------------
 	authAPI := api.Group("/auth")
-	authAPI.Post("/signup", app.Login)
-	authAPI.Post("/login", app.SignUp)
+	authAPI.Post("/signup", app.SignUp)
+	authAPI.Post("/login", app.Login)
 
 	//------------------
 	// Notes APIs

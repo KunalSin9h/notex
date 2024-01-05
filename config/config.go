@@ -27,3 +27,11 @@ func SendError(c *fiber.Ctx, code int, err error) error {
 		Data:    nil,
 	})
 }
+
+func SendErrorWithMessage(c *fiber.Ctx, code int, err error, msg string) error {
+	return c.Status(code).JSON(APIResponse{
+		Message: msg,
+		Error:   err.Error(),
+		Data:    nil,
+	})
+}

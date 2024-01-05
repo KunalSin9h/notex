@@ -1,5 +1,13 @@
 basePath: /api
 definitions:
+  config.APIResponse:
+    properties:
+      data: {}
+      error:
+        type: string
+      message:
+        type: string
+    type: object
   config.SignUpUserPayload:
     properties:
       email:
@@ -40,6 +48,16 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       summary: Create a new user
       tags:
       - auth

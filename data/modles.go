@@ -4,13 +4,18 @@ import (
 	"context"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/kunalsin9h/notex/user"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type MongoDBRepository struct {
-	Conn *mongo.Client
+	Conn          *mongo.Client
+	Users         *mongo.Collection
+	SessionTokens *mongo.Collection
+	Notes         *mongo.Collection
 }
 
 func init() {
@@ -33,11 +38,40 @@ func NewMongoDBRepository(connectionString string) *MongoDBRepository {
 		panic(err)
 	}
 
-	return &MongoDBRepository{
-		Conn: client,
+	db := &MongoDBRepository{
+		Conn:          client,
+		Users:         client.Database("notex").Collection("users"),
+		SessionTokens: client.Database("notex").Collection("sessions"),
+		Notes:         client.Database("notex").Collection("notes"),
 	}
+
+	uniqueConstraintUsername := options.IndexOptions{}
+	uniqueConstraintEmail := options.IndexOptions{}
+	uniqueConstraintUsername.SetUnique(true)
+	uniqueConstraintEmail.SetUnique(true)
+
+	usernameIndex := mongo.IndexModel{
+		Keys:    bson.D{{Key: "username", Value: 1}},
+		Options: &uniqueConstraintUsername,
+	}
+
+	emailIndex := mongo.IndexModel{
+		Keys:    bson.D{{Key: "email", Value: 1}},
+		Options: &uniqueConstraintEmail,
+	}
+
+	indexName, err := db.Users.Indexes().CreateMany(context.Background(), []mongo.IndexModel{usernameIndex, emailIndex})
+
+	if err != nil {
+		panic(err)
+	} else {
+		log.Info("Created db index on username and email for user", "index name", indexName)
+	}
+
+	return db
 }
 
 func (db *MongoDBRepository) InsertNewUser(user *user.User) error {
-	return nil
+	_, err := db.Users.InsertOne(context.Background(), user)
+	return err
 }
