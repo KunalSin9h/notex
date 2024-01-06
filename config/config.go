@@ -10,7 +10,7 @@ data.Repository is an interface which we will use to put a real MongoDB database
 and put a mock database for testing
 */
 type Config struct {
-	Repo data.Repository
+	Repo *data.MongoDB
 	Port uint16
 }
 

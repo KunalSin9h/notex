@@ -8,12 +8,12 @@ import (
 )
 
 // Insert new notes
-func (db *MongoDBRepository) InsertNewNotes(n *user.Notes) error {
+func (db *MongoDB) InsertNewNotes(n *user.Notes) error {
 	_, err := db.Notes.InsertOne(context.Background(), n)
 	return err
 }
 
-func (db *MongoDBRepository) GetAllNotes(userID string) ([]*user.Notes, error) {
+func (db *MongoDB) GetAllNotes(userID string) ([]*user.Notes, error) {
 	userConcern, err := db.FindUserByID(userID)
 	if err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (db *MongoDBRepository) GetAllNotes(userID string) ([]*user.Notes, error) {
 	return res, nil
 }
 
-func (db *MongoDBRepository) GetNotesByID(id string) (*user.Notes, error) {
+func (db *MongoDB) GetNotesByID(id string) (*user.Notes, error) {
 	notes := user.Notes{}
 
 	err := db.Notes.FindOne(context.Background(), bson.D{
@@ -50,14 +50,14 @@ func (db *MongoDBRepository) GetNotesByID(id string) (*user.Notes, error) {
 // Update notes just like update user function is not 100% optimized
 // we can update each property, instead to make app simple i am
 // replacing the entire document.
-func (db *MongoDBRepository) UpdateNotes(notes *user.Notes) error {
+func (db *MongoDB) UpdateNotes(notes *user.Notes) error {
 	filter := bson.D{{Key: "id", Value: notes.ID}}
 
 	_, err := db.Notes.ReplaceOne(context.Background(), filter, notes)
 	return err
 }
 
-func (db *MongoDBRepository) DeleteNotes(notesID, userID string) error {
+func (db *MongoDB) DeleteNotes(notesID, userID string) error {
 	filter := bson.D{
 		{Key: "id", Value: notesID},
 		{Key: "authorid", Value: userID},
@@ -68,7 +68,7 @@ func (db *MongoDBRepository) DeleteNotes(notesID, userID string) error {
 	return err
 }
 
-func (db *MongoDBRepository) ShareNotes(notesID, userID string, usersToShare []string) error {
+func (db *MongoDB) ShareNotes(notesID, userID string, usersToShare []string) error {
 	// This verifies that user owns the notes, i.e current logged in user is the
 	// author of the notes
 	_, err := db.GetNotesByID(notesID)
@@ -86,7 +86,7 @@ func (db *MongoDBRepository) ShareNotes(notesID, userID string, usersToShare []s
 	return nil
 }
 
-func (db *MongoDBRepository) SearchNotes(userID, query string) ([]*user.Notes, error) {
+func (db *MongoDB) SearchNotes(userID, query string) ([]*user.Notes, error) {
 	filter := bson.D{{Key: "$text", Value: bson.D{{Key: "$search", Value: query}}}}
 
 	cursor, err := db.Notes.Find(context.Background(), filter)

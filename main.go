@@ -23,7 +23,7 @@ func main() {
 	mongoDBConnectionString := "mongodb://localhost:27017" // !
 
 	app := &config.Config{
-		Repo: data.NewMongoDBRepository(mongoDBConnectionString),
+		Repo: data.NewMongoDB(mongoDBConnectionString, "notex"),
 		Port: 7000, // !
 	}
 

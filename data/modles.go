@@ -10,19 +10,17 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type MongoDBRepository struct {
+type MongoDB struct {
 	Conn          *mongo.Client
 	Users         *mongo.Collection
 	SessionTokens *mongo.Collection
 	Notes         *mongo.Collection
 }
 
-func init() {
-	// Check if MongoDBRepository fully implements the Repository interface
-	var _ Repository = (*MongoDBRepository)(nil)
-}
-
-func NewMongoDBRepository(connectionString string) *MongoDBRepository {
+// dbName will depends on environment, like for testing we use notexTest
+// and for production we use notex
+func NewMongoDB(connectionString, dbName string) *MongoDB {
+	log.Info("Connecting to mongodb database, if its not running, i will hold for 10 seconds :)")
 	// Wait for 10 seconds until fail to connect with mongodb
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel() // when context ends cancel (close / end) the context
@@ -37,11 +35,11 @@ func NewMongoDBRepository(connectionString string) *MongoDBRepository {
 		panic(err)
 	}
 
-	db := &MongoDBRepository{
+	db := &MongoDB{
 		Conn:          client,
-		Users:         client.Database("notex").Collection("users"),
-		SessionTokens: client.Database("notex").Collection("sessions"),
-		Notes:         client.Database("notex").Collection("notes"),
+		Users:         client.Database(dbName).Collection("users"),
+		SessionTokens: client.Database(dbName).Collection("sessions"),
+		Notes:         client.Database(dbName).Collection("notes"),
 	}
 
 	uniqueConstraintUsername := options.IndexOptions{}

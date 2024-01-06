@@ -11,6 +11,7 @@ require (
 
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
+	github.com/brianvoe/gofakeit/v6 v6.26.3 // indirect
 	github.com/charmbracelet/lipgloss v0.9.1 // indirect
 	github.com/charmbracelet/log v0.3.1 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect

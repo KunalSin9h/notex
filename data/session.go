@@ -11,7 +11,7 @@ import (
 )
 
 // Add a new Session
-func (db *MongoDBRepository) AddUserSession(accessToken, userID string, expiresTime time.Time) error {
+func (db *MongoDB) AddUserSession(accessToken, userID string, expiresTime time.Time) error {
 	session := user.Session{
 		Token:          accessToken,
 		UserID:         userID,
@@ -24,7 +24,7 @@ func (db *MongoDBRepository) AddUserSession(accessToken, userID string, expiresT
 }
 
 // Check is user is in session
-func (db *MongoDBRepository) VerifySession(accessToken string) (string, error) {
+func (db *MongoDB) VerifySession(accessToken string) (string, error) {
 	session := user.Session{}
 
 	err := db.SessionTokens.FindOne(context.Background(), bson.D{
