@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/charmbracelet/log"
 	"github.com/kunalsin9h/notex/config"
 	"github.com/kunalsin9h/notex/data"
 	_ "github.com/kunalsin9h/notex/docs"
@@ -26,6 +27,8 @@ func main() {
 		Repo: data.NewMongoDB(mongoDBConnectionString, "notex"),
 		Port: 7000, // !
 	}
+
+	log.Infof("Starting server on at: http://127.0.0.1:%d\n", app.Port)
 
 	app.Run()
 }

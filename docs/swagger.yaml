@@ -92,6 +92,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/config.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/config.APIResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -120,6 +124,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/config.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/config.APIResponse'
         "500":
           description: Internal Server Error
           schema:
@@ -146,6 +154,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/config.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - ApiKeyAuth: []
       summary: Delete a note by ID for the authenticated user
@@ -161,6 +173,10 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "401":
+          description: Unauthorized
           schema:
             $ref: '#/definitions/config.APIResponse'
         "404":
@@ -196,6 +212,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/config.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - ApiKeyAuth: []
       summary: Update an existing note by ID for the authenticated user
@@ -226,6 +246,10 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/config.APIResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/config.APIResponse'
       security:
       - ApiKeyAuth: []
       summary: Share a note with another user for the authenticated user
@@ -241,6 +265,10 @@ paths:
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/config.APIResponse'
+        "401":
+          description: Unauthorized
           schema:
             $ref: '#/definitions/config.APIResponse'
         "500":
