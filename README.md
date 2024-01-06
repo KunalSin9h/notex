@@ -56,8 +56,6 @@ Run the project
 > [!CAUTION]
 > Make sure you have `mongodb` running on `localhost:27017`.
 
-````bash
-
 ```bash
 go run main.go
 ````
