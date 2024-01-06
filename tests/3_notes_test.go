@@ -38,6 +38,8 @@ func TestGetNotesUnauthorized(t *testing.T) {
 	}
 }
 
+var notesId string
+
 func TestCreateNewNotesSuccess(t *testing.T) {
 	reqBody := map[string]string{
 		"body":  gofakeit.Paragraph(3, 5, 500, " "),
@@ -57,5 +59,25 @@ func TestCreateNewNotesSuccess(t *testing.T) {
 
 	if res.StatusCode != http.StatusOK {
 		t.Fatalf("Failed to create new notes, got status code %d", res.StatusCode)
+	} else {
+		data := getResponseData(res)
+		notesId = data.Data.(string)
 	}
 }
+
+func TestGetNotesByID(t *testing.T) {
+	req, err := http.NewRequest(http.MethodGet, "/api/notes/"+notesId, nil)
+	panicIfError(err)
+
+	authorizeRequest(req)
+
+	res, err := router.Test(req, -1)
+	panicIfError(err)
+
+	if res.StatusCode != http.StatusOK {
+		t.Fatalf("Failed to get notes by id, got status code %d", res.StatusCode)
+	}
+}
+
+// Delete Notes by ID will be tested after we share the notes
+// so TestDeleteNotesByID will be in file 4_share_test.go
