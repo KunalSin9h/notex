@@ -12,6 +12,7 @@ import (
 //	@tags		notes
 //	@Security	ApiKeyAuth
 //	@success	200 {object} APIResponse
+//	@success	401 {object} APIResponse
 //	@success	500 {object} APIResponse
 //	@router		/notes [get]
 func (app *Config) Get(c *fiber.Ctx) error {

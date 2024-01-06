@@ -16,6 +16,7 @@ import (
 //	@param		request	body	NewNotesRequestPayload	true	"New notes request payload"
 //	@Security	ApiKeyAuth
 //	@success	200	{object}	APIResponse
+//	@success	401 {object} APIResponse
 //	@success	400	{object}	APIResponse
 //	@router		/notes/{id} [put]
 func (app *Config) Update(c *fiber.Ctx) error {

@@ -14,6 +14,7 @@ import (
 //	@Security	ApiKeyAuth
 //	@success	200 {object} APIResponse
 //	@success	400 {object} APIResponse
+//	@success	401 {object} APIResponse
 //	@router		/notes/{id} [delete]
 func (app *Config) Delete(c *fiber.Ctx) error {
 	userID := c.Locals("userID").(string)

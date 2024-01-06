@@ -58,3 +58,7 @@ func encodeToBasicAuth(username, password string) string {
 	return base64.StdEncoding.EncodeToString([]byte(userPass))
 
 }
+
+func authorizeRequest(req *http.Request) {
+	req.Header.Set("X-API-Key", accessToken)
+}
